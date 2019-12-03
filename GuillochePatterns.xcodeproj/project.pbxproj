@@ -14,6 +14,7 @@
 		D1481F562395FAD7001249B2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1481F552395FAD7001249B2 /* Preview Assets.xcassets */; };
 		D1481F592395FAD7001249B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1481F572395FAD7001249B2 /* LaunchScreen.storyboard */; };
 		D1481F612395FF26001249B2 /* Superformula.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1481F602395FF26001249B2 /* Superformula.swift */; };
+		D1DE499C2396EC3C0020FBF9 /* Spirograph.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DE499B2396EC3C0020FBF9 /* Spirograph.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		D1481F582395FAD7001249B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D1481F5A2395FAD7001249B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1481F602395FF26001249B2 /* Superformula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Superformula.swift; sourceTree = "<group>"; };
+		D1DE499B2396EC3C0020FBF9 /* Spirograph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spirograph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				D1481F4E2395FAD5001249B2 /* SceneDelegate.swift */,
 				D1481F502395FAD5001249B2 /* ContentView.swift */,
 				D1481F602395FF26001249B2 /* Superformula.swift */,
+				D1DE499B2396EC3C0020FBF9 /* Spirograph.swift */,
 				D1481F522395FAD7001249B2 /* Assets.xcassets */,
 				D1481F572395FAD7001249B2 /* LaunchScreen.storyboard */,
 				D1481F5A2395FAD7001249B2 /* Info.plist */,
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1DE499C2396EC3C0020FBF9 /* Spirograph.swift in Sources */,
 				D1481F612395FF26001249B2 /* Superformula.swift in Sources */,
 				D1481F4D2395FAD5001249B2 /* AppDelegate.swift in Sources */,
 				D1481F4F2395FAD5001249B2 /* SceneDelegate.swift in Sources */,

@@ -21,7 +21,7 @@ struct SuperformulaCurveEditor: View {
 	
     var body: some View {
 		VStack {
-			drawCurve(myCurve: SuperformulaCurve(a: a, b: b, m1: m1, m2: m2, n1: n1, n2: n2, n3: n3, radius: radius, steps: steps), at: CGPoint(x: 200, y: 200)).frame(width: 400, height: 400, alignment: .center)
+			SuperShape(curve: SuperformulaCurve(a: a, b: b, m1: m1, m2: m2, n1: n1, n2: n2, n3: n3, radius: radius, steps: steps))
 			
 			HStack {
 				Text("a")
@@ -122,29 +122,24 @@ struct SuperformulaCurve {
 	}
 }
 
-struct drawCurve : View {
-	let myCurve: SuperformulaCurve
-	var color: Color = .blue
+struct SuperShape: Shape {
+	let curve: SuperformulaCurve
 	var at: CGPoint = CGPoint(x: 0, y: 0)
 	
-	var path: Path {
-		get {
-			let newPath = Path { path in
-				for i in 0..<myCurve.points.count {
-					if(i == 0) {
-						path.move(to: myCurve.points[i] + at)
-					} else {
-						path.addLine(to: myCurve.points[i] + at)
-					}
+	func path(in rect: CGRect) -> Path {
+		let center: CGPoint = CGPoint(x: rect.width/2, y: rect.height/2)
+
+		let newPath = Path { path in
+			for i in 0..<curve.points.count {
+				if(i == 0) {
+					path.move(to: curve.points[i] + center + at)
+				} else {
+					path.addLine(to: curve.points[i] + center + at)
 				}
 			}
-			
-			return newPath
 		}
-	}
-	
-    var body: some View {
-		path.stroke(color, lineWidth: 1)
+		
+		return newPath
 	}
 }
 
