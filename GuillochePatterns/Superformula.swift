@@ -21,7 +21,7 @@ struct SuperformulaCurveEditor: View {
 	
     var body: some View {
 		VStack {
-			drawCurve(myCurve: SuperformulaCurve(a: a, b: b, m1: m1, m2: m2, n1: n1, n2: n2, n3: n3, radius: radius, steps: steps)).frame(width: 400, height: 400, alignment: .center)
+			drawCurve(myCurve: SuperformulaCurve(a: a, b: b, m1: m1, m2: m2, n1: n1, n2: n2, n3: n3, radius: radius, steps: steps), at: CGPoint(x: 200, y: 200)).frame(width: 400, height: 400, alignment: .center)
 			
 			HStack {
 				Text("a")
@@ -90,21 +90,35 @@ struct SuperformulaCurve {
 	let n3: Double
 	let radius: Double
 	let steps: Double
+	var points: [CGPoint]
+		
+	init(a: Double, b: Double, m1: Double, m2: Double, n1: Double, n2: Double, n3: Double, radius: Double, steps: Double) {
+		self.a = a
+		self.b = b
+		self.m1 = m1
+		self.m2 = m2
+		self.n1 = n1
+		self.n2 = n2
+		self.n3 = n3
+		self.radius = radius
+		self.steps = steps
+		
+		self.points = [CGPoint]()
+		self.calculatePoints()
+	}
 	
-	func getPoints() -> [CGPoint] {
-		var pot = [CGPoint]()
+	private mutating func calculatePoints() {
+		self.points = [CGPoint]()
 		var current: Double = 0
 		var r = pow(pow(abs((cos((m1*current)/4)) / a), n2) + pow(abs((sin((m2*current)/4))/b),n3), -1/n1)*radius
 		
-		pot.append(CGPoint(x: r*cos(current), y: r*sin(current)))
+		self.points.append(CGPoint(x: r*cos(current), y: r*sin(current)))
 		
 		repeat {
 			current = current + (2*Double.pi/steps)
 			r = pow(pow(abs((cos((m1*current)/4))/a),n2)+pow(abs((sin((m2*current)/4))/b),n3), -1/n1)*radius
-			pot.append(CGPoint(x: r*cos(current), y: r*sin(current)))
+			self.points.append(CGPoint(x: r*cos(current), y: r*sin(current)))
 		} while current <= Double.pi*2
-		
-		return pot
 	}
 }
 
@@ -113,18 +127,24 @@ struct drawCurve : View {
 	var color: Color = .blue
 	var at: CGPoint = CGPoint(x: 0, y: 0)
 	
-    var body: some View {
-		Path { path in
-			let myPoints = myCurve.getPoints()
-
-			for i in 0..<myPoints.count {
-				if(i == 0) {
-					path.move(to: myPoints[i] + at)
-				} else {
-					path.addLine(to: myPoints[i] + at)
+	var path: Path {
+		get {
+			let newPath = Path { path in
+				for i in 0..<myCurve.points.count {
+					if(i == 0) {
+						path.move(to: myCurve.points[i] + at)
+					} else {
+						path.addLine(to: myCurve.points[i] + at)
+					}
 				}
 			}
-		}.stroke(color, lineWidth: 1)
+			
+			return newPath
+		}
+	}
+	
+    var body: some View {
+		path.stroke(color, lineWidth: 1)
 	}
 }
 

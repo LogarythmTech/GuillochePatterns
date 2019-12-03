@@ -11,18 +11,18 @@ import SwiftUI
 struct ContentView: View {
 	let path1: SuperformulaCurve = SuperformulaCurve(a: 1, b: 1, m1: 8, m2: 8, n1: 8, n2: 8, n3: 8, radius: 160, steps: 350)
 	let path2: SuperformulaCurve = SuperformulaCurve(a: 1, b: 1, m1: 6, m2: 6, n1: 12, n2: 12, n3: 12, radius: 80, steps: 350)
-	let at = CGPoint(x: 200, y: 350)
+	let at = CGPoint(x: 200, y: 200)
 	
     var body: some View {
 		ZStack {
-			Spirograph(path1: path1, path2: path2,
+			drawSpirograph(path1: path1, path2: path2,
 					   color1: Color(red: 0, green: 0, blue: 1), color2: Color(red: 1, green: 0, blue: 0),
-					   rotation: 0, at: at)
+					   rotation: 0, at: at).frame(width: 400, height: 400, alignment: .center)
 		}
 	}
 }
 
-struct Spirograph : View {
+struct drawSpirograph : View {
 	let path1: SuperformulaCurve
 	let path2: SuperformulaCurve
 	let color1: Color
@@ -52,8 +52,8 @@ struct Spirograph : View {
 	
 	
 	var body: some View {
-		ForEach(0..<path1.getPoints().count) { i in
-			drawCurve(myCurve: self.path2, color: self.getColorGradientStep(step: i, totalSteps: self.path1.getPoints().count), at: self.path1.getPoints()[i] + self.at)
+		ForEach(0..<path1.points.count) { i in
+			drawCurve(myCurve: self.path2, color: self.getColorGradientStep(step: i, totalSteps: self.path1.points.count), at: self.path1.points[i] + self.at)
 				/*.rotationEffect(.radians(Double(i)*self.rotation), anchor: .init(x: self.path1.getPoints()[i].x, y: self.path1.getPoints()[i].y))*/
 		}
 	}
