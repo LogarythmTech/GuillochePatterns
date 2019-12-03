@@ -8,7 +8,79 @@
 
 import SwiftUI
 
-struct SuperformulaCurve: View {
+struct SuperformulaCurveEditor: View {
+	@State private var a: Double = 1
+	@State private var b: Double = 1
+	@State private var m1: Double = 8
+	@State private var m2: Double = 8
+	@State private var n1: Double = 8
+	@State private var n2: Double = 8
+	@State private var n3: Double = 8
+	@State private var radius: Double = 160
+	@State private var steps: Double = 350
+	
+    var body: some View {
+		VStack {
+			drawCurve(myCurve: SuperformulaCurve(a: a, b: b, m1: m1, m2: m2, n1: n1, n2: n2, n3: n3, radius: radius, steps: steps)).frame(width: 400, height: 400, alignment: .center)
+			
+			HStack {
+				Text("a")
+				Slider(value: $a, in: 1...10, step: 0.1)
+				Text("\(a)")
+			}.padding(.leading).padding(.trailing)
+			
+			HStack {
+				Text("b")
+				Slider(value: $b, in: 1...10, step: 0.1)
+				Text("\(b)")
+			}.padding(.leading).padding(.trailing)
+			
+			HStack {
+				Text("m1")
+				Slider(value: $m1, in: 1...20, step: 0.1)
+				Text("\(m1)")
+			}.padding(.leading).padding(.trailing)
+			
+			HStack {
+				Text("m2")
+				Slider(value: $m2, in: 1...20, step: 0.1)
+				Text("\(m2)")
+			}.padding(.leading).padding(.trailing)
+			
+			HStack {
+				Text("n1")
+				Slider(value: $n1, in: 1...20, step: 0.1)
+				Text("\(n1)")
+			}.padding(.leading).padding(.trailing)
+			
+			HStack {
+				Text("n2")
+				Slider(value: $n2, in: 1...20, step: 0.1)
+				Text("\(n2)")
+			}.padding(.leading).padding(.trailing)
+			
+			HStack {
+				Text("n3")
+				Slider(value: $n3, in: 1...20, step: 0.1)
+				Text("\(n3)")
+			}.padding(.leading).padding(.trailing)
+			
+			HStack {
+				Text("radius")
+				Slider(value: $radius, in: 50...1000, step: 1)
+				Text("\(radius)")
+			}.padding(.leading).padding(.trailing)
+			
+			HStack {
+				Text("steps")
+				Slider(value: $steps, in: 50...1000, step: 1)
+				Text("\(steps)")
+			}.padding(.leading).padding(.trailing)
+		}
+    }
+}
+
+struct SuperformulaCurve {
 	let a: Double
 	let b: Double
 	let m1: Double
@@ -19,31 +91,85 @@ struct SuperformulaCurve: View {
 	let radius: Double
 	let steps: Double
 	
-	var x: Double = 250
-	var y: Double = 250
-	
-    var body: some View {
-		Path { path in
-			var current: Double = 0
-			
-			
-			
-			var r = pow(pow(abs((cos((m1*current)/4)) / a), n2) + pow(abs((sin((m2*current)/4))/b),n3), -1/n1)*radius
-			path.move(to: CGPoint(x: r*cos(current) + x, y: r*sin(current) + y))
-			
-			repeat {
-				current = current + (2*Double.pi/steps)
-				r = pow(pow(abs((cos((m1*current)/4))/a),n2)+pow(abs((sin((m2*current)/4))/b),n3), -1/n1)*radius
-				path.addLine(to: CGPoint(x: r*cos(current) + x, y: r*sin(current) + y))
-			} while current <= Double.pi*2
-		}.stroke(Color.blue, lineWidth: 5)
+	func getPoints() -> [CGPoint] {
+		var pot = [CGPoint]()
+		var current: Double = 0
+		var r = pow(pow(abs((cos((m1*current)/4)) / a), n2) + pow(abs((sin((m2*current)/4))/b),n3), -1/n1)*radius
+		
+		pot.append(CGPoint(x: r*cos(current), y: r*sin(current)))
+		
+		repeat {
+			current = current + (2*Double.pi/steps)
+			r = pow(pow(abs((cos((m1*current)/4))/a),n2)+pow(abs((sin((m2*current)/4))/b),n3), -1/n1)*radius
+			pot.append(CGPoint(x: r*cos(current), y: r*sin(current)))
+		} while current <= Double.pi*2
+		
+		return pot
 	}
 }
 
+struct drawCurve : View {
+	let myCurve: SuperformulaCurve
+	var color: Color = .blue
+	var at: CGPoint = CGPoint(x: 0, y: 0)
+	
+    var body: some View {
+		Path { path in
+			let myPoints = myCurve.getPoints()
 
+			for i in 0..<myPoints.count {
+				if(i == 0) {
+					path.move(to: myPoints[i] + at)
+				} else {
+					path.addLine(to: myPoints[i] + at)
+				}
+			}
+		}.stroke(color, lineWidth: 1)
+	}
+}
 
 struct SuperformulaCurve_Previews: PreviewProvider {
     static var previews: some View {
-        SuperformulaCurve(a: 1, b: 1, m1: 8, m2: 8, n1: 8, n2: 8, n3: 8, radius: 160, steps: 350).previewLayout(.fixed(width: 500, height: 500))
+        SuperformulaCurveEditor()
+    }
+}
+
+extension CGPoint {
+	public static func +(left: CGPoint, right: CGPoint) -> CGPoint {
+		return CGPoint(x: left.x + right.x, y: left.y + right.y)
+	}
+}
+
+extension Color {
+    var redComponent: Double? {
+        let val = description
+        guard description.hasPrefix("#") else { return nil }
+        let r1 = val.index(val.startIndex, offsetBy: 1)
+        let r2 = val.index(val.startIndex, offsetBy: 2)
+        return Double(Int(val[r1...r2], radix: 16)!) / 255.0
+    }
+
+    var greenComponent: Double? {
+        let val = description
+        guard description.hasPrefix("#") else { return nil }
+        let g1 = val.index(val.startIndex, offsetBy: 3)
+        let g2 = val.index(val.startIndex, offsetBy: 4)
+        return Double(Int(val[g1...g2], radix: 16)!) / 255.0
+    }
+
+    var blueComponent: Double? {
+        let val = description
+        guard description.hasPrefix("#") else { return nil }
+        let b1 = val.index(val.startIndex, offsetBy: 5)
+        let b2 = val.index(val.startIndex, offsetBy: 6)
+        return Double(Int(val[b1...b2], radix: 16)!) / 255.0
+    }
+
+    var opacityComponent: Double? {
+        let val = description
+        guard description.hasPrefix("#") else { return nil }
+        let b1 = val.index(val.startIndex, offsetBy: 7)
+        let b2 = val.index(val.startIndex, offsetBy: 8)
+        return Double(Int(val[b1...b2], radix: 16)!) / 255.0
     }
 }
