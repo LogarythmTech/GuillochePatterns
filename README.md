@@ -20,6 +20,6 @@ To create the Guilloce Pattern you need to first create the curve, this is done 
 2) Then you create an parametric equation setting x = r*cos(current) and y = r*sin(current).
 
 ## The Spirograph
-Using the Superformula, you create to curves. The first curve will act as the path, and the second as the shape. At each point along the first curve, you create the second curve. This will get you the Guilloche Patterns.
+Using the Superformula, you create to curves. The first curve will act as the path, and the second as the shape. At each point along the first curve, you create the second curve. This will get you the Guilloche Pattern such as the one above.
 
 
