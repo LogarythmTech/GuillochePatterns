@@ -20,7 +20,7 @@ struct SuperformulaCurveEditor: View {
 	@State private var steps: Double = 350
 	
     var body: some View {
-		VStack {
+		ZStack {
 			SuperShape(curve: SuperformulaCurve(a: a, b: b, m1: m1, m2: m2, n1: n1, n2: n2, n3: n3, radius: radius, steps: steps))
 			
 			HStack {
