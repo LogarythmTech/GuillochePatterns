@@ -5,7 +5,8 @@
 ## What is a Guilloche Pattern
 Guilloce Patterns, is a mathmatically created pattern, that I personanly think looks very cool. It is most commonly used on the backgroup of money. 
 
-![](https://i1.wp.com/rinkovec.com/wp-content/uploads/2018/04/dollar.jpg?resize=1080%2C480&ssl=1)
+![Image from wp.com](https://i1.wp.com/rinkovec.com/wp-content/uploads/2018/04/dollar.jpg?resize=1080%2C480&ssl=1)
+> Image from https://i1.wp.com/rinkovec.com/wp-content/uploads/2018/04/dollar.jpg?resize=1080%2C480&ssl=1
 
 These Pattern's are almost impossible to scan/print without noticalble defects. Also, the Guilloce Pattern is easy to make, but very hard to tell which exact curves were used to create the pattern.
 
